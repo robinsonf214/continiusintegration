@@ -9,6 +9,7 @@ class DiningExperienceManager:
             'Cheesecake': {'price': 4, 'category': 'Dessert'},
             'Coffee': {'price': 2, 'category': 'Beverage'},
             'Tea': {'price': 2, 'category': 'Beverage'},
+            'caviar': {'price': 12, 'category': 'Special'},
         }
     
     def display_menu(self):
@@ -87,7 +88,7 @@ class DiningExperienceManager:
                 print("Order confirmed!")
                 print("Selected meals:")
                 for item, quantity in order.items():
-                    print(f"{item} - Cantida: {quantity}")
+                    print(f"{item} - Cantidad: {quantity}")
                 print(f"Costo Total: ${total_cost}")
         else:
             print("Orden cancelada. Vuelva a introducir sus selecciones.")
