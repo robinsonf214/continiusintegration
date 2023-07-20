@@ -54,8 +54,7 @@ class DiningExperienceManager:
             total_cost -= 25  # Apply $25 discount if total cost is more than $100
         
         return total_cost
-    #Cambio
-    #print()
+
     def validate_order(self, order):
         for item, quantity in order.items():
             if item not in self.menu:
