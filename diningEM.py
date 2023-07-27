@@ -11,12 +11,12 @@ class DiningExperienceManager:
             'Tea': {'price': 2, 'category': 'Beverage'},
             'caviar': {'price': 12, 'category': 'Special'},
         }
-    
+
     def display_menu(self):
         print("Menu:")
         for item, details in self.menu.items():
             print(f"{item} - ${details['price']}")
-    
+
     def validate_quantity(self, quantity):
         try:
             quantity = int(quantity)
@@ -24,62 +24,65 @@ class DiningExperienceManager:
                 return True
             else:
                 print("Cantidad no válida. Introduzca un número entero positivo mayor que cero.")
+                return False
         except ValueError:
             print("Cantidad no válida. Introduzca un número entero positivo mayor que cero.")
-        return False
-    
+            return False
+
     def calculate_total_cost(self, order):
         total_cost = 0
         quantity_sum = sum(order.values())
-        
+
         for item, quantity in order.items():
             if item in self.menu:
                 price = self.menu[item]['price']
                 total_cost += price * quantity
             else:
                 return -1  # Invalid input, item not available in the menu
-        
+
         if quantity_sum > 5:
             total_cost *= 0.9  # Apply 10% discount if quantity is more than 5
         if quantity_sum > 10:
             total_cost *= 0.8  # Apply 20% discount if quantity is more than 10
-        
+
         special_category_items = [item for item in order if self.menu[item]['category'] == 'Special']
         if special_category_items:
             total_cost *= 1.05  # Apply 5% surcharge to special category items
-        
+
         if total_cost > 50:
             total_cost -= 10  # Apply $10 discount if total cost is more than $50
         if total_cost > 100:
             total_cost -= 25  # Apply $25 discount if total cost is more than $100
+
+        # Round the total cost to two decimal places
+        total_cost = round(total_cost, 2)
         
         return total_cost
-
     def validate_order(self, order):
         for item, quantity in order.items():
             if item not in self.menu:
-                print(f"Pedido no válido. '{item}' no está disponible en el menu.")
+                print(f"Pedido no válido. '{item}' no está disponible en el menú.")
                 return False
             if not self.validate_quantity(quantity):
                 return False
         return True
-    
+
     def place_order(self):
         print("Welcome to the Dining Experience Manager!")
         self.display_menu()
-        
+
         order = {}
         while True:
-            item = input("Ingrese el nombre de la comida a ordenar (o 'done' para terminar): ")
-            if item == 'done':
+            item = input("Ingrese el nombre de la comida a ordenar (o 'done' para terminar): ").strip().capitalize()
+            if item == 'Done':
                 break
-            
-            quantity = input("Introduzca la cantidad:")
+
+            quantity = input("Introduzca la cantidad: ")
             if not self.validate_quantity(quantity):
                 continue
-            
+
             order[item] = int(quantity)
-        
+
         if self.validate_order(order):
             total_cost = self.calculate_total_cost(order)
             if total_cost == -1:
@@ -89,10 +92,9 @@ class DiningExperienceManager:
                 print("Selected meals:")
                 for item, quantity in order.items():
                     print(f"{item} - Cantidad: {quantity}")
-                print(f"Costo Total: ${total_cost}")
+                print(f"Costo Total: ${total_cost:.2f}")
         else:
             print("Orden cancelada. Vuelva a introducir sus selecciones.")
-
 
 def main():
     dem = DiningExperienceManager()
@@ -101,4 +103,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
